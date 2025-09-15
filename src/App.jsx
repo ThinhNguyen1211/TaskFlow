@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar/Navbar';
 import Dashboard from './pages/Dashboard/Dashboard';
+import SimpleDebug from './components/SimpleDebug';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import Settings from './pages/Settings/Settings';
@@ -91,27 +92,7 @@ function App() {
                         <Routes>
                             <Route 
                                 path="/" 
-                                element={
-                                    <Dashboard
-                                        todos={todos}
-                                        totalCount={totalCount}
-                                        hasNextPage={hasNextPage}
-                                        isLoading={isLoading}
-                                        isLoadingMore={isLoadingMore}
-                                        error={error}
-                                        availableTags={availableTags}
-                                        filters={filters}
-                                        onFiltersChange={handleFiltersChange}
-                                        addTodo={addTodo}
-                                        updateTodo={updateTodo}
-                                        toggleTodo={toggleTodo}
-                                        deleteTodo={deleteTodo}
-                                        startTask={startTask}
-                                        completeTask={completeTask}
-                                        loadNextPage={loadNextPage}
-                                        mutate={mutate}
-                                    />
-                                } 
+                                element={<SimpleDebug />}
                             />
                             <Route 
                                 path="/calendar" 
