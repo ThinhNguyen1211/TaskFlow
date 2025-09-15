@@ -1,0 +1,242 @@
+/* Demo Banner */
+.demo-banner {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: demo-banner-slide-down 0.3s ease-out;
+}
+
+.demo-banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* Main Banner Content */
+.demo-banner-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    min-height: 48px;
+}
+
+.demo-banner-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.demo-banner-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.demo-banner-text strong {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.demo-banner-text span {
+    font-size: 0.8125rem;
+    opacity: 0.9;
+}
+
+.demo-banner-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.demo-banner-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.demo-banner-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.demo-banner-btn-expand {
+    font-size: 1.125rem;
+}
+
+.demo-banner-btn-dismiss {
+    font-size: 1.25rem;
+}
+
+/* Expanded Content */
+.demo-banner-expanded {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 16px 0;
+    animation: demo-banner-expand 0.3s ease-out;
+}
+
+.demo-banner-info {
+    margin-bottom: 16px;
+}
+
+.demo-banner-info h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.demo-banner-info ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.demo-banner-info li {
+    margin-bottom: 4px;
+}
+
+/* Control Buttons */
+.demo-banner-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.demo-banner-control-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.demo-banner-control-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.demo-banner-control-reset:hover {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.5);
+}
+
+.demo-banner-control-add:hover {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.5);
+}
+
+.demo-banner-control-exit:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* Note */
+.demo-banner-note {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.demo-banner-note p {
+    margin: 0;
+}
+
+.demo-banner-note strong {
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes demo-banner-slide-down {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes demo-banner-expand {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 300px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .demo-banner-main {
+        padding: 10px 0;
+    }
+    
+    .demo-banner-text {
+        min-width: 0;
+    }
+    
+    .demo-banner-text span {
+        display: none;
+    }
+    
+    .demo-banner-controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .demo-banner-control-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .demo-banner-info ul {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .demo-banner-content {
+        padding: 0 12px;
+    }
+    
+    .demo-banner-main {
+        gap: 8px;
+    }
+    
+    .demo-banner-text strong {
+        font-size: 0.8125rem;
+    }
+    
+    .demo-banner-expanded {
+        padding: 12px 0;
+    }
+    
+    .demo-banner-info h4 {
+        font-size: 0.8125rem;
+    }
+}
