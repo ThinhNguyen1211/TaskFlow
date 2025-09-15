@@ -26,6 +26,7 @@ const Dashboard = memo(({
     toggleTodo, 
     deleteTodo, 
     updateTodo, 
+    addTodo,
     startTask,
     completeTask,
     isLoading, 

@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar/Navbar';
 import Dashboard from './pages/Dashboard/Dashboard';
 import SimpleDebug from './components/SimpleDebug';
-import SimpleDashboard from './components/SimpleDashboard';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import Settings from './pages/Settings/Settings';
@@ -94,12 +93,22 @@ function App() {
                             <Route 
                                 path="/" 
                                 element={
-                                    <SimpleDashboard
+                                    <Dashboard
                                         todos={todos}
-                                        addTodo={addTodo}
+                                        totalCount={totalCount}
+                                        hasNextPage={hasNextPage}
+                                        isLoadingMore={isLoadingMore}
+                                        loadNextPage={loadNextPage}
                                         toggleTodo={toggleTodo}
                                         deleteTodo={deleteTodo}
+                                        updateTodo={updateTodo}
+                                        addTodo={addTodo}
+                                        startTask={startTask}
+                                        completeTask={completeTask}
                                         isLoading={isLoading}
+                                        error={error}
+                                        filters={filters}
+                                        onFiltersChange={handleFiltersChange}
                                     />
                                 }
                             />
