@@ -51,21 +51,31 @@ const DeadlinePressure = ({ tasks = [] }) => {
     useEffect(() => {
         if (hookData === null || hookData === undefined) {
             console.warn('useDeadlinePressure returned null/undefined data');
+            // Reset error if we were previously in error state
+            if (error) {
+                setError(null);
+            }
         }
-    }, [hookData]);
+    }, [hookData, error]);
 
     // Wrap the entire component in error handling
-    if (error) {
+    if (error || !hookData) {
         return (
             <div className="bg-gray-800 rounded-lg p-6">
                 <div className="text-center text-gray-400">
                     <h3 className="text-lg font-semibold text-white mb-2">⚠️ Deadline Pressure Monitor</h3>
-                    <p className="text-sm">Unable to load pressure monitoring. Please refresh the page.</p>
+                    <p className="text-sm">
+                        {error ? 'Error loading pressure monitoring.' : 'Initializing pressure monitoring...'}
+                    </p>
                     <button
-                        onClick={() => setError(null)}
+                        onClick={() => {
+                            setError(null);
+                            // Try to force a re-render
+                            window.location.reload();
+                        }}
                         className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm"
                     >
-                        Retry
+                        {error ? 'Refresh Page' : 'Loading...'}
                     </button>
                 </div>
             </div>

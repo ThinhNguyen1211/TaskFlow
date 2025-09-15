@@ -53,41 +53,51 @@ export const useDeadlinePressure = (tasks = [], pressureModeEnabled = false) => 
     const [pressureData, setPressureData] = useState(new Map());
     const [conflicts, setConflicts] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
+    const [error, setError] = useState(null);
 
     // Update pressure data when tasks change
     useEffect(() => {
-        const newPressureData = new Map();
-
-        tasks.forEach((task) => {
-            if (task.deadline) {
-                try {
-                    const pressure = safeService.calculatePressureLevel(task);
-                    newPressureData.set(task._id || task.id, pressure);
-                } catch (error) {
-                    console.error('Error calculating pressure for task:', task, error);
-                    // Use fallback pressure data
-                    newPressureData.set(task._id || task.id, {
-                        level: FALLBACK_PRESSURE_LEVELS.NONE,
-                        name: 'none',
-                        color: 'gray',
-                        message: 'No deadline set',
-                        urgency: 0,
-                    });
-                }
-            }
-        });
-
-        setPressureData(newPressureData);
-
-        // Update conflicts and suggestions with error handling
         try {
-            const newConflicts = safeService.getDeadlineConflicts(tasks);
-            const newSuggestions = safeService.generatePrioritizationSuggestions(tasks);
+            setError(null);
+            const newPressureData = new Map();
 
-            setConflicts(newConflicts);
-            setSuggestions(newSuggestions);
-        } catch (error) {
-            console.error('Error updating conflicts and suggestions:', error);
+            tasks.forEach((task) => {
+                if (task.deadline) {
+                    try {
+                        const pressure = safeService.calculatePressureLevel(task);
+                        newPressureData.set(task._id || task.id, pressure);
+                    } catch (error) {
+                        console.error('Error calculating pressure for task:', task, error);
+                        // Use fallback pressure data
+                        newPressureData.set(task._id || task.id, {
+                            level: FALLBACK_PRESSURE_LEVELS.NONE,
+                            name: 'none',
+                            color: 'gray',
+                            message: 'No deadline set',
+                            urgency: 0,
+                        });
+                    }
+                }
+            });
+
+            setPressureData(newPressureData);
+
+            // Update conflicts and suggestions with error handling
+            try {
+                const newConflicts = safeService.getDeadlineConflicts(tasks);
+                const newSuggestions = safeService.generatePrioritizationSuggestions(tasks);
+
+                setConflicts(newConflicts || []);
+                setSuggestions(newSuggestions || []);
+            } catch (error) {
+                console.error('Error updating conflicts and suggestions:', error);
+                setConflicts([]);
+                setSuggestions([]);
+            }
+        } catch (hookError) {
+            console.error('Error in useDeadlinePressure effect:', hookError);
+            setError(hookError);
+            setPressureData(new Map());
             setConflicts([]);
             setSuggestions([]);
         }
@@ -257,49 +267,64 @@ export const useDeadlinePressure = (tasks = [], pressureModeEnabled = false) => 
 
     return {
         // Pressure data
-        pressureData,
+        pressureData: pressureData || new Map(),
         getTaskPressure,
         getTaskVisualization,
         getTaskAnimations,
 
         // Sorted and filtered tasks
-        tasksByPressure,
+        tasksByPressure: tasksByPressure || [],
 
         // Statistics
-        pressureStats,
+        pressureStats: pressureStats || {
+            total: 0,
+            overdue: 0,
+            critical: 0,
+            high: 0,
+            medium: 0,
+            low: 0,
+            none: 0,
+        },
 
         // Conflicts and suggestions
-        conflicts,
-        suggestions,
-        alerts,
+        conflicts: conflicts || [],
+        suggestions: suggestions || [],
+        alerts: alerts || [],
 
         // Utility functions
-        formatTimeRemaining: safeService.formatTimeRemaining,
-        getPressureIcon: safeService.getPressureIcon,
+        formatTimeRemaining: safeService.formatTimeRemaining || ((time) => `${Math.round(Math.abs(time || 0))} hours`),
+        getPressureIcon: safeService.getPressureIcon || ((level) => {
+            const icons = { 0: '📅', 1: '🔵', 2: '🟡', 3: '🟠', 4: '🔴', 5: '🚨' };
+            return icons[level] || '📅';
+        }),
 
         // Refresh function
         refresh: () => {
-            const newPressureData = new Map();
+            try {
+                const newPressureData = new Map();
 
-            tasks.forEach((task) => {
-                if (task.deadline) {
-                    try {
-                        const pressure = safeService.calculatePressureLevel(task);
-                        newPressureData.set(task._id || task.id, pressure);
-                    } catch (error) {
-                        console.error('Error calculating pressure for task:', task, error);
-                        newPressureData.set(task._id || task.id, {
-                            level: FALLBACK_PRESSURE_LEVELS.NONE,
-                            name: 'none',
-                            color: 'gray',
-                            message: 'No deadline set',
-                            urgency: 0,
-                        });
+                tasks.forEach((task) => {
+                    if (task.deadline) {
+                        try {
+                            const pressure = safeService.calculatePressureLevel(task);
+                            newPressureData.set(task._id || task.id, pressure);
+                        } catch (error) {
+                            console.error('Error calculating pressure for task:', task, error);
+                            newPressureData.set(task._id || task.id, {
+                                level: FALLBACK_PRESSURE_LEVELS.NONE,
+                                name: 'none',
+                                color: 'gray',
+                                message: 'No deadline set',
+                                urgency: 0,
+                            });
+                        }
                     }
-                }
-            });
+                });
 
-            setPressureData(newPressureData);
+                setPressureData(newPressureData);
+            } catch (refreshError) {
+                console.error('Error in refresh function:', refreshError);
+            }
         },
     };
 };

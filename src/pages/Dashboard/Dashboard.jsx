@@ -9,7 +9,7 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import ViewSwitcher from '../../components/ViewSwitcher/ViewSwitcher';
 import CalendarView from '../../components/CalendarView/CalendarView';
 import AnalyticsView from '../../components/AnalyticsView/AnalyticsView';
-import DeadlinePressure from '../../components/DeadlinePressure/DeadlinePressure';
+import DeadlinePressure from '../../components/DeadlinePressure/SimpleDeadlinePressure';
 import KeyboardShortcuts from '../../components/KeyboardShortcuts/KeyboardShortcuts';
 import { TaskListSkeleton, SearchSkeleton } from '../../components/LoadingSkeleton/LoadingSkeleton';
 import { LoadingErrorState, EmptyState, SearchEmptyState } from '../../components/ErrorState/ErrorState';
